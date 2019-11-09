@@ -1,1 +1,1 @@
-#The project files for the rubix nuggets hyper casual game
+The project files for the rubix nuggets hyper casual game
