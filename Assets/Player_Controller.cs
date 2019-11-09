@@ -43,7 +43,7 @@ public class Player_Controller : MonoBehaviour
         for (int i = 0; i < ShootPoints.Length; i++)
         {
             //Instantiate(Bullet,ShootPoints[i].transform.position,ShootPoints[i].transform.rotation);
-            obpool.SpawnFromPool("Bullet", ShootPoints[i].transform.position, ShootPoints[i].transform.rotation);
+            obpool.SpawnFromPool("Bullets", ShootPoints[i].transform.position, ShootPoints[i].transform.rotation);
         }
     }
 }

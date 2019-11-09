@@ -13,11 +13,11 @@ public class MovementClass : MonoBehaviour
             //rb.MovePosition((transform.position + transform.right) * Time.deltaTime * Speed);
             if (OBJ.transform.position.x >= (CameraSize))
             {
-                OBJ.transform.position = new Vector3(CameraSize, 0, 0);
+                OBJ.transform.position = new Vector3(CameraSize, OBJ.transform.position.y, 0);
             }
             else if (OBJ.transform.position.x <= -(CameraSize))
             {
-                OBJ.transform.position = new Vector3(-CameraSize, 0, 0);
+                OBJ.transform.position = new Vector3(-CameraSize, OBJ.transform.position.y, 0);
             }
         }
      public void MovementByTransform(GameObject OBJ, float Speed)

@@ -7,7 +7,8 @@ public class GameMaster : MonoBehaviour
 {
     private Color DefaultColor;
     public float Timer = 5f;
-    float CountdownToNextColor = 0;
+    public bool TimerIsRandom = false;
+    float CountdownToNextColor = 1f;
     public GameObject[] bullets;
 
     public static GameMaster SharedInstance;
@@ -18,7 +19,7 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-        bullets = new GameObject[40];
+        RandomTimer();
         int DC = UnityEngine.Random.Range(0, 2);
         if (DC == 0) { DefaultColor = Color.blue; } else { DefaultColor = Color.red; }
         ColorChange();
@@ -28,14 +29,31 @@ public class GameMaster : MonoBehaviour
     {
         if (Time.time >= CountdownToNextColor)
         {
-            CountdownToNextColor = Timer + Time.time;
-            ColorChanger.ColorChangerBox.MoveDown();
+            if (ColorChanger.ColorChangerBox.SpawnReady == true)
+            {
+                ColorChanger.ColorChangerBox.MoveDown();
+            }
+            if (ColorChanger.ColorChangerBox.SpawnReady == false)
+            {
+                CountdownToNextColor = Timer + Time.time;
+                ColorChanger.ColorChangerBox.SpawnReady = true;
+            }
+
+
+        }
+    }
+    private void RandomTimer() 
+    {
+        if (TimerIsRandom == true)
+        {
+            Timer = UnityEngine.Random.Range(Timer, Timer * 2);
         }
     }
 
     public void ColorChange()
     {
-        if (bullets != null) 
+        RandomTimer();
+        if (bullets != null)
         {
             for (int i = 0; i < bullets.Length; i++)
             {
@@ -55,12 +73,13 @@ public class GameMaster : MonoBehaviour
                     {
                         bullets[i].GetComponent<SpriteRenderer>().color = DefaultColor;
                         if (DefaultColor == Color.red)
-                        bullets[i].tag = "Red";
+                            bullets[i].tag = "Red";
                         else { bullets[i].tag = "Blue"; }
-                        
+
                     }
                 }
             }
         }
+        else { Debug.Log("There are no bullets"); }
     }
 }

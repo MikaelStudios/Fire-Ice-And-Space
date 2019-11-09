@@ -16,7 +16,6 @@ public class ObjectPooler : MonoBehaviour
     }
 
     public static ObjectPooler instance;
-    GameMaster GM;
     public void Awake()
     {
         instance = this;
@@ -29,9 +28,7 @@ public class ObjectPooler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GM = GameObject.FindObjectOfType<GameMaster>();
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
-
         foreach (Pool pool in pools) 
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
@@ -39,10 +36,7 @@ public class ObjectPooler : MonoBehaviour
             for (int i = 0; i < pool.sizeOfPool; i++)
             {
                 GameObject obj = Instantiate(pool.Prefab);
-                if (GM != null)
-                {
-                    GM.bullets[i] = obj;
-                }else { Debug.Log("Game Master script does not exist"); }
+                GameMaster.SharedInstance.bullets[i] = obj;
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }

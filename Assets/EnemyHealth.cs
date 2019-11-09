@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
 
-    public int Health;
+    private int Health { get{ return _Health; } set { _Health = value; if (_Health <= 0) { Destroy(this.gameObject); } } }
+    public int _Health;
+    public float Speed = 0.6f;
     string[] Colors = {"Red","Blue" };
     string _CurrColor;
     string CurrentColor 
@@ -26,21 +28,27 @@ public class EnemyHealth : MonoBehaviour
     {
         CurrentColor = Colors1[Random.Range(0, 2)];
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        this.gameObject.GetComponent<Collider2D>().isTrigger = false;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(Colors1[0]) && this.gameObject.CompareTag(Colors1[0]))
         {
-            Destroy(this.gameObject);
+            // Destroy(this.gameObject);
+            Health--;
         }
         else if (collision.gameObject.CompareTag(Colors1[1]) && this.gameObject.CompareTag(Colors1[1]))
         {
-            Destroy(gameObject);
+            Health--;
         }
 
     }
 
     private void Update()
     {
-          transform.position += 0.6f * Time.deltaTime * new Vector3(0, -1, 0);
+          transform.position += Speed * Time.deltaTime * new Vector3(0, -1, 0);
     }
 }
